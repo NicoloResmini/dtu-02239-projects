@@ -5,3 +5,5 @@ public interface ChatServer extends Remote {
     public void leave(ChatClient client) throws RemoteException;
     public void sendMsg(Message msg) throws RemoteException;
 }
+
+
