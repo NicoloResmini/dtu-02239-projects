@@ -1,3 +1,5 @@
+package chatExample;
+
 import java.rmi.*;
 import java.rmi.server.*;
 
@@ -17,7 +19,7 @@ public class ChatClientImpl extends UnicastRemoteObject
         Message msg;
 
         // take a reference of the server from the registry
-        server = (ChatServer) Naming.lookup("rmi://"+serverHost+"/ChatServer");
+        server = (ChatServer) Naming.lookup("rmi://"+serverHost+"/chatExample.ChatServer");
 
         // join
         server.join(this);

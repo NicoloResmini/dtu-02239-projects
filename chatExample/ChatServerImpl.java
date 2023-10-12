@@ -1,3 +1,5 @@
+package chatExample;
+
 import java.util.*;
 import java.rmi.*;
 import java.rmi.server.*;
@@ -33,7 +35,7 @@ public class ChatServerImpl extends UnicastRemoteObject
         System.setSecurityManager(new SecurityManager());
         ChatServerImpl server = new ChatServerImpl();
         Registry registry = LocateRegistry.getRegistry("localhost");
-        registry.bind("ChatServer", server);
+        registry.bind("chatExample.ChatServer", server);
         System.out.println("Server bound and ready");
     }
 }

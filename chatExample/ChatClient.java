@@ -1,3 +1,5 @@
+package chatExample;
+
 import java.rmi.*;
 
 public interface ChatClient extends Remote {
