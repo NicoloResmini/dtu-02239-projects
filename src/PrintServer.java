@@ -17,7 +17,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void print(String filename, String printer, String username, String password) throws RemoteException {
+    public void print(String filename, String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Print operation invoked with filename: " + filename + " and printer: " + printer);
         } else {
@@ -26,7 +26,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public String queue(String printer, String username, String password) throws RemoteException {
+    public String queue(String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Queue operation invoked with printer: " + printer);
         } else {
@@ -36,7 +36,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void topQueue(String printer, int job, String username, String password) throws RemoteException {
+    public void topQueue(String printer, int job, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("TopQueue operation invoked with printer: " + printer + " and job: " + job);
         } else {
@@ -45,7 +45,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void start(String username, String password) throws RemoteException {
+    public void start(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Start operation invoked");
         } else {
@@ -54,7 +54,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void stop(String username, String password) throws RemoteException {
+    public void stop(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Stop operation invoked");
         } else {
@@ -63,7 +63,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void restart(String username, String password) throws RemoteException {
+    public void restart(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Restart operation invoked");
         } else {
@@ -72,7 +72,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public String status(String printer, String username, String password) throws RemoteException {
+    public String status(String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Status operation invoked with printer: " + printer);
         } else {
@@ -82,7 +82,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public String readConfig(String parameter, String username, String password) throws RemoteException {
+    public String readConfig(String parameter, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("ReadConfig operation invoked with parameter: " + parameter);
         } else {
@@ -92,7 +92,7 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public void setConfig(String parameter, String value, String username, String password) throws RemoteException {
+    public void setConfig(String parameter, String value, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("SetConfig operation invoked with parameter: " + parameter + " and value: " + value);
         } else {
