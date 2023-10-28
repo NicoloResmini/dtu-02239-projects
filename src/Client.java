@@ -3,12 +3,18 @@ package src;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 
 public class Client {
     private Client() {}
 
     public static void main(String[] args) {
         try {
+            SSLSocketFactory sslSocketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket socket = (SSLSocket) sslSocketFactory.createSocket("localhost", 12345); // Server address and port
+
             Registry registry = LocateRegistry.getRegistry(1099);
             PrintServerInterface server = (PrintServerInterface) registry.lookup("PrintServer");
 
@@ -20,6 +26,17 @@ public class Client {
                 String username = scanner.nextLine();
                 System.out.println("Enter password:");
                 String password = scanner.nextLine();
+
+                Boolean loginAuth = true;
+                
+                loginAuth = server.verifyPassword(username, password);
+                
+                if (loginAuth.equals(false)) {
+                    System.out.println("Invalid Credentials");
+                    continue;
+                }
+                
+                System.out.println("Succesful Login!");
 
                 System.out.println("Select an operation:");
                 System.out.println("1. Print");

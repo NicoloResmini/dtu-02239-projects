@@ -6,6 +6,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
 
 public class PrintServer extends UnicastRemoteObject implements PrintServerInterface {
     private Map<String, String> configParams = new HashMap<>();
@@ -16,6 +19,18 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
         passwordManager = new PasswordManager(passwordFilePath);
     }
 
+    @Override
+    public Boolean verifyPassword(String username, String password) {
+        try {
+            return passwordManager.verifyPassword(username, password);
+        } 
+        catch (HashingException ex) {
+        }
+        
+        return false;
+    }
+
+    
     @Override
     public void print(String filename, String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
@@ -103,10 +118,18 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public static void main(String[] args) {
         try {
             // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
-            PrintServer server = new PrintServer("passwords.txt");
-
-            // Bind the remote object's stub in the registry
+            PrintServer server = new PrintServer("src/passwords.txt");
             Registry registry = LocateRegistry.createRegistry(1099);
+
+            // Create an SSLServerSocket for secure communication
+            SSLServerSocketFactory sslServerSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+            SSLServerSocket sslServerSocket = (SSLServerSocket) sslServerSocketFactory.createServerSocket(12345); // Port number for the server
+
+            System.out.println("TLS PrintServer started. Waiting for a client to connect...");
+
+            SSLSocket clientSocket = (SSLSocket) sslServerSocket.accept();
+            System.out.println("Client connected.");
+
             registry.bind("PrintServer", server);
 
             System.out.println("Server ready");
