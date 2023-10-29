@@ -2,6 +2,7 @@ package src;
 
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocket;
+import java.io.FileInputStream;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,8 +22,6 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
 
     @Override
     public Boolean verifyPassword(String username, String password) {
-        //return true;
-
         try {
             return passwordManager.verifyPassword(username, password);
         } 
@@ -36,8 +35,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void print(String filename, String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Print operation invoked with filename: " + filename + " and printer: " + printer);
+            logger.log(Level.INFO, "Print operation invoked with filename: " + filename + " and printer: " + printer + " by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
@@ -45,8 +46,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public String queue(String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Queue operation invoked with printer: " + printer);
+            logger.log(Level.INFO, "Queue operation invoked with printer: " + printer + " by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
         return null;
     }
@@ -55,8 +58,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void topQueue(String printer, int job, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("TopQueue operation invoked with printer: " + printer + " and job: " + job);
+            logger.log(Level.INFO, "TopQueue operation invoked with printer: " + printer + " and job: " + job +" by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
@@ -64,8 +69,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void start(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Start operation invoked");
+            logger.log(Level.INFO, "Start operation invoked by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
@@ -73,8 +80,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void stop(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Stop operation invoked");
+            logger.log(Level.INFO, "Stop operation invoked by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
@@ -82,8 +91,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void restart(String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Restart operation invoked");
+            logger.log(Level.INFO, "Restart operation invoked by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
@@ -91,8 +102,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public String status(String printer, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("Status operation invoked with printer: " + printer);
+            logger.log(Level.INFO, "Status operation invoked with printer: " + printer + " by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
         return null;
     }
@@ -101,8 +114,10 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public String readConfig(String parameter, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("ReadConfig operation invoked with parameter: " + parameter);
+            logger.log(Level.INFO, "ReadConfig operation invoked with parameter: " + parameter + " by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
         return null;
     }
@@ -111,17 +126,18 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public void setConfig(String parameter, String value, String username, String password) throws RemoteException, HashingException {
         if (passwordManager.verifyPassword(username, password)) {
             System.out.println("SetConfig operation invoked with parameter: " + parameter + " and value: " + value);
+            logger.log(Level.INFO, "SetConfig operation invoked with parameter: " + parameter + " and value: " + value +" by user: " + username);
         } else {
             System.out.println("Invalid credentials for user: " + username);
+            logger.log(Level.INFO, "Invalid credentials for user: " + username);
         }
     }
 
     public static void main(String[] args) {
         try {
-            logger.setLevel(Level.INFO);
-            Handler fileHandler = new FileHandler("printServer.log", 2000, 5);
-            fileHandler.setFormatter(new SimpleFormatter());
-            logger.addHandler(fileHandler);
+            FileInputStream configFile = new FileInputStream("src/logging.properties");
+            LogManager.getLogManager().readConfiguration(configFile);
+
             // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
             PrintServer server = new PrintServer("passwords.txt");
             Registry registry = LocateRegistry.createRegistry(1099);
@@ -134,12 +150,16 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
             logger.log(Level.INFO, "TLS PrintServer started. Waiting for a client to connect...");
             SSLSocket clientSocket = (SSLSocket) sslServerSocket.accept();
             System.out.println("Client connected.");
+            logger.log(Level.INFO, "Client connected.");
 
             registry.bind("PrintServer", server);
 
             System.out.println("Server ready");
+            logger.log(Level.INFO, "Server ready");
+
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
+            logger.log(Level.SEVERE, "Server exception: " + e.toString());
             e.printStackTrace();
         }
     }
