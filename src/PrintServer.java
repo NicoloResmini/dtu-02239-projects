@@ -1,5 +1,4 @@
-package src;
-
+import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -9,6 +8,8 @@ import java.util.Map;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocket;
+import javax.rmi.ssl.SslRMIServerSocketFactory;
 
 public class PrintServer extends UnicastRemoteObject implements PrintServerInterface {
     private Map<String, String> configParams = new HashMap<>();
@@ -118,12 +119,12 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     public static void main(String[] args) {
         try {
             // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
-            PrintServer server = new PrintServer("src/passwords.txt");
+            PrintServer server = new PrintServer("passwords.txt");
             Registry registry = LocateRegistry.createRegistry(1099);
 
-            // Create an SSLServerSocket for secure communication
-            SSLServerSocketFactory sslServerSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-            SSLServerSocket sslServerSocket = (SSLServerSocket) sslServerSocketFactory.createServerSocket(12345); // Port number for the server
+            // Create an SslRMIServerSocket for secure communication
+            RMISSLServerSocketFactory rmiSslServerSocketFactory = new RMISSLServerSocketFactory();
+            SSLServerSocket sslServerSocket = (SSLServerSocket) rmiSslServerSocketFactory.createServerSocket(12345); // Port number for the server
 
             System.out.println("TLS PrintServer started. Waiting for a client to connect...");
 
