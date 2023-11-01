@@ -1,10 +1,14 @@
 package src;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
@@ -20,11 +24,18 @@ public class Client {
             PrintServerInterface server = (PrintServerInterface) registry.lookup("PrintServer");
 
             Scanner scanner = new Scanner(System.in);
+
+            System.out.println("Welcome to the PrintServer client!");
             while (true) {
-                System.out.println("Welcome to the PrintServer client!");
 
                 System.out.println("Enter username:");
                 String username = scanner.nextLine();
+
+                if (username.isEmpty()) {
+                    System.out.print("Username cannot be empty!\n");
+                    continue;
+                }
+
                 System.out.println("Enter password:");
                 String password = scanner.nextLine();
 
@@ -37,7 +48,7 @@ public class Client {
                     continue;
                 }
                 
-                System.out.println("Succesful Login!");
+                System.out.println("Successful Login!");
 
                 System.out.println("Select an operation:");
                 System.out.println("1. Print");
