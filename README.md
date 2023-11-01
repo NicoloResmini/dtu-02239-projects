@@ -1,5 +1,7 @@
 # AuthenticationLab
 
+## DEADLINE: 03 November, 2023 11:59 PM
+
 # Goal
 The purpose of this laboratory exercise is to provide hands on experience with the development of a user authentication mechanism. Java is the official language of instruction for computer science at DTU Compute, which is why it has been chosen for this assignment.
 
