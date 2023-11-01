@@ -1,3 +1,5 @@
+package src;
+
 import java.net.ServerSocket;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
