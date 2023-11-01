@@ -66,7 +66,6 @@ public class PasswordManager {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new HashingException(e.getMessage());
         }
-
     }
 
     /**
@@ -87,5 +86,4 @@ public class PasswordManager {
 
         return user.getHashedStoredPassword().equals(checkPassword);
     }
-
 }

@@ -13,5 +13,5 @@ public interface PrintServerInterface extends Remote {
     String status(String printer, String username, String password) throws RemoteException, HashingException;
     String readConfig(String parameter, String username, String password) throws RemoteException, HashingException;
     void setConfig(String parameter, String value, String username, String password) throws RemoteException, HashingException;
-    Boolean verifyPassword(String username, String password) throws RemoteException;
+    boolean verifyPassword(String username, String password) throws RemoteException, HashingException;
 }

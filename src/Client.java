@@ -1,25 +1,17 @@
 package src;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.PrintWriter;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 
 public class Client {
     private Client() {}
-    
     public static void main(String[] args) {
         try {
             RMISSLClientSocketFactory sslSocketfactory = (RMISSLClientSocketFactory) new RMISSLClientSocketFactory();
             SSLSocket sslSocket = (SSLSocket) sslSocketfactory.createSocket("localhost", 12345);
-            
+
             Registry registry = LocateRegistry.getRegistry(1099);
             PrintServerInterface server = (PrintServerInterface) registry.lookup("PrintServer");
 
@@ -39,15 +31,11 @@ public class Client {
                 System.out.println("Enter password:");
                 String password = scanner.nextLine();
 
-                Boolean loginAuth = true;
-                
-                loginAuth = server.verifyPassword(username, password);
-                
-                if (loginAuth.equals(false)) {
-                    System.out.println("Invalid Credentials");
+                if (!server.verifyPassword(username, password)) {
+                    System.out.println("Invalid Credentials, try again!");
                     continue;
                 }
-                
+
                 System.out.println("Successful Login!");
 
                 System.out.println("Select an operation:");
@@ -61,15 +49,18 @@ public class Client {
                 System.out.println("8. ReadConfig");
                 System.out.println("9. SetConfig");
                 System.out.println("Enter your choice:");
+
                 int choice = scanner.nextInt();
                 scanner.nextLine();  // consume newline
+                String printer;
+                String parameter;
 
                 switch (choice) {
                     case 1:
                         System.out.println("Enter filename:");
                         String filename = scanner.nextLine();
                         System.out.println("Enter printer:");
-                        String printer = scanner.nextLine();
+                        printer = scanner.nextLine();
                         server.print(filename, printer, username, password);
                         break;
                     case 2:
@@ -101,7 +92,7 @@ public class Client {
                         break;
                     case 8:
                         System.out.println("Enter parameter:");
-                        String parameter = scanner.nextLine();
+                        parameter = scanner.nextLine();
                         server.readConfig(parameter, username, password);
                         break;
                     case 9:

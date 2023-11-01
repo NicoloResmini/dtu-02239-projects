@@ -21,18 +21,13 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     }
 
     @Override
-    public Boolean verifyPassword(String username, String password) {
-        try {
-            boolean valid = passwordManager.verifyPassword(username, password);
-            if (!valid) {
-                logger.log(Level.WARNING, "Invalid credentials for user: " + username);
-                return false;
-            }
-            return true;
-        } 
-        catch (HashingException ex) {
+    public boolean verifyPassword(String username, String password) throws HashingException {
+        boolean valid = passwordManager.verifyPassword(username, password);
+        if (!valid) {
+            logger.log(Level.WARNING, "Invalid credentials for user: " + username);
+            return false;
         }
-        return false;
+        return true;
     }
 
     
@@ -146,7 +141,4 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
             e.printStackTrace();
         }
     }
-
-
 }
-
