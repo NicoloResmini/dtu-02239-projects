@@ -1,6 +1,8 @@
 package src;
 
 import src.security.AccessManager;
+import src.security.Manager;
+import src.security.RBAC_Manager;
 import src.security.exception.AccessException;
 import src.security.exception.HashingException;
 import src.security.PasswordManager;
@@ -15,17 +17,26 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.logging.*;
 public class PrintServer extends UnicastRemoteObject implements PrintServerInterface {
     private Map<String, String> configParams = new HashMap<>();
     private PasswordManager passwordManager;
-    private AccessManager accessManager;
+    private Manager accessManager;
     static Logger logger = Logger.getLogger(PrintServer.class.getName());
 
+    // This constructor is used for the ACL server
     protected PrintServer(String passwordFilePath, String accessFile) throws RemoteException {
         super();
         passwordManager = new PasswordManager(passwordFilePath);
         accessManager = new AccessManager(accessFile);
+    }
+
+    // This constructor is used for the RBAC server
+    protected PrintServer(String passwordFilePath, String roles_operationsFile, String users_rolesFile) throws RemoteException {
+        super();
+        passwordManager = new PasswordManager(passwordFilePath);
+        accessManager = new RBAC_Manager(roles_operationsFile, users_rolesFile);
     }
 
     @Override
@@ -173,8 +184,27 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
             FileInputStream configFile = new FileInputStream("src/logging.properties");
             LogManager.getLogManager().readConfiguration(configFile);
 
-            // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
-            PrintServer server = new PrintServer("passwords.txt", "access_list.txt");
+            PrintServer server = null;
+
+            // ask the user if he wants to use an ACL or RBAC server
+            System.out.println("Hello! Do you want to use an ACL or RBAC server? (Digit 1 for ACL, 2 for RBAC)");
+            System.out.println("Enter your choice:");
+            Scanner scanner = new Scanner(System.in);
+            int choice = scanner.nextInt();
+            if (choice == 1) {
+                System.out.println("You chose ACL.");
+                // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
+                server = new PrintServer("passwords.txt", "access_list.txt");
+            } else if (choice == 2) {
+                System.out.println("You chose RBAC.");
+                // You can put the name of the file instead of the path only if the file is in the same directory as the src folder
+                server = new PrintServer("passwords.txt", "roles_operations.txt", "users_roles.txt");
+            } else {
+                System.out.println("Invalid choice. Exiting...");
+                System.exit(1);
+            }
+
+            // Bind the remote object's stub in the registry
             Registry registry = LocateRegistry.createRegistry(1099);
 
             // Create an SslRMIServerSocket for secure communication
