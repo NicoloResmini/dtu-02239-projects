@@ -1,4 +1,6 @@
-package src;
+package src.security;
+
+import src.security.exception.HashingException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -85,5 +87,15 @@ public class PasswordManager {
         String checkPassword = hashPassword(password, user.getStoredSalt());
 
         return user.getHashedStoredPassword().equals(checkPassword);
+    }
+
+    /**
+     * To be used for new user enrollment
+     * @throws HashingException
+     */
+    private void createPassword() throws HashingException {
+        byte [] salt = generateSalt();
+        System.out.println(Base64.getEncoder().encodeToString(salt));
+        System.out.println(hashPassword("password", salt));
     }
 }

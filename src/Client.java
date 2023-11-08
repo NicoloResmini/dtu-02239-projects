@@ -1,5 +1,8 @@
 package src;
 
+import src.security.exception.AccessException;
+import src.security.ssl.RMISSLClientSocketFactory;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -61,12 +64,20 @@ public class Client {
                         String filename = scanner.nextLine();
                         System.out.println("Enter printer:");
                         printer = scanner.nextLine();
-                        server.print(filename, printer, username, password);
+                        try {
+                            server.print(filename, printer, username, password);
+                        } catch (AccessException e){
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 2:
                         System.out.println("Enter printer:");
                         printer = scanner.nextLine();
-                        server.queue(printer, username, password);
+                        try {
+                            server.queue(printer, username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 3:
                         System.out.println("Enter printer:");
@@ -74,33 +85,61 @@ public class Client {
                         System.out.println("Enter job:");
                         int job = scanner.nextInt();
                         scanner.nextLine();  // consume newline
-                        server.topQueue(printer, job, username, password);
+                        try {
+                            server.topQueue(printer, job, username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 4:
-                        server.start(username, password);
+                        try {
+                            server.start(username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 5:
-                        server.stop(username, password);
+                        try {
+                            server.stop(username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 6:
-                        server.restart(username, password);
+                        try {
+                            server.restart(username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 7:
                         System.out.println("Enter printer:");
                         printer = scanner.nextLine();
-                        server.status(printer, username, password);
+                        try {
+                            server.status(printer, username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 8:
                         System.out.println("Enter parameter:");
                         parameter = scanner.nextLine();
-                        server.readConfig(parameter, username, password);
+                        try {
+                            server.readConfig(parameter, username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     case 9:
                         System.out.println("Enter parameter:");
                         parameter = scanner.nextLine();
                         System.out.println("Enter value:");
                         String value = scanner.nextLine();
-                        server.setConfig(parameter, value, username, password);
+                        try {
+                            server.setConfig(parameter, value, username, password);
+                        } catch (AccessException e) {
+                            System.out.println("You do not have rights to execute this operation, please use different credentials.");
+                        }
                         break;
                     default:
                         System.out.println("Invalid choice: input must be an integer between 1 and 9 inclusive.");

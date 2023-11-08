@@ -1,4 +1,4 @@
-package src;
+package src.security.ssl;
 import java.io.IOException;
 import java.rmi.server.RMIServerSocketFactory;
 import javax.net.ServerSocketFactory;
