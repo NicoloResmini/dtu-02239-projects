@@ -1,4 +1,4 @@
-package src;
+package src.security.ssl;
 
 import java.io.*;
 import java.net.*;

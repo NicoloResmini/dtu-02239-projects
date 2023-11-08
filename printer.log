@@ -1,6 +1,5 @@
-[2023-11-01 21:54:06] [INFO   ] TLS PrintServer started. Waiting for a client to connect...
-[2023-11-01 21:54:15] [INFO   ] Client connected.
-[2023-11-01 21:54:15] [INFO   ] Server ready
-[2023-11-01 21:54:50] [INFO   ] Print operation invoked with filename: 1 and printer: 1 by user: user1
-[2023-11-01 21:54:59] [INFO   ] Queue operation invoked with printer: a by user: user1
-[2023-11-01 21:55:02] [WARNING] Invalid credentials for user: 1
+[2023-11-08 16:50:03] [INFO   ] TLS PrintServer started. Waiting for a client to connect...
+[2023-11-08 16:50:10] [INFO   ] Client connected.
+[2023-11-08 16:50:10] [INFO   ] Server ready
+[2023-11-08 16:50:18] [WARNING] User: Erica cannot execute this operation.
+[2023-11-08 16:50:48] [WARNING] User: Erica cannot execute this operation.

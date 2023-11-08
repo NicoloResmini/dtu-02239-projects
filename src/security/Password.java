@@ -1,4 +1,4 @@
-package src;
+package src.security;
 
 public class Password {
     String hashedStoredPassword;
