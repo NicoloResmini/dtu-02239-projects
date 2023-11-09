@@ -14,18 +14,18 @@ import java.util.*;
 
 public class PasswordManager {
     private Map<String, Password> userPasswords = new HashMap<>();
-    private Path passwordFilePath;
+    private String passwordFilePath;
     private int NUM_OF_ITERATIONS = 10000;
     private int KEY_LENGTH = 256;
 
     public PasswordManager(String passwordFilePath) {
-        this.passwordFilePath = Paths.get(passwordFilePath);
+        this.passwordFilePath = passwordFilePath;
         loadPasswords();
     }
 
     private void loadPasswords() {
         try {
-            List<String> lines = Files.readAllLines(passwordFilePath);
+            List<String> lines = Files.readAllLines(Path.of(passwordFilePath));
             for (String line : lines) {
                 String[] parts = line.split(":", 3);
                 if (parts.length == 3) {

@@ -1,8 +1,8 @@
 package src;
 
-public enum Role {
+public enum ERole {
     ADMIN,
     TECHNICIAN,
     POWER_USER,
-    USER;
+    USER
 }

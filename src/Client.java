@@ -66,6 +66,7 @@ public class Client {
                         printer = scanner.nextLine();
                         try {
                             server.print(filename, printer, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e){
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -75,6 +76,7 @@ public class Client {
                         printer = scanner.nextLine();
                         try {
                             server.queue(printer, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -87,6 +89,7 @@ public class Client {
                         scanner.nextLine();  // consume newline
                         try {
                             server.topQueue(printer, job, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -94,6 +97,7 @@ public class Client {
                     case 4:
                         try {
                             server.start(username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -101,6 +105,7 @@ public class Client {
                     case 5:
                         try {
                             server.stop(username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -108,6 +113,7 @@ public class Client {
                     case 6:
                         try {
                             server.restart(username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -117,6 +123,7 @@ public class Client {
                         printer = scanner.nextLine();
                         try {
                             server.status(printer, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -126,6 +133,7 @@ public class Client {
                         parameter = scanner.nextLine();
                         try {
                             server.readConfig(parameter, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }
@@ -137,6 +145,7 @@ public class Client {
                         String value = scanner.nextLine();
                         try {
                             server.setConfig(parameter, value, username, password);
+                            System.out.println("Done!");
                         } catch (AccessException e) {
                             System.out.println("You do not have rights to execute this operation, please use different credentials.");
                         }

@@ -17,10 +17,10 @@ public abstract class Manager {
         return list;
     }
 
-    protected Map<String, List<EOperation>> load_string_list_File(Path filePath) {
+    protected Map<String, List<EOperation>> loadPermissionFile(String filePath) {
         Map<String, List<EOperation>> map = new HashMap<>();
         try {
-            List<String> lines = Files.readAllLines(filePath);
+            List<String> lines = Files.readAllLines(Path.of(filePath));
             for (String line : lines) {
                 String[] parts = line.split(":", 2);
                 if (parts.length == 2) {
@@ -32,5 +32,4 @@ public abstract class Manager {
         }
         return map;
     }
-
 }

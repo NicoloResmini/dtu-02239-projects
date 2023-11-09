@@ -1,5 +1,0 @@
-[2023-11-09 11:21:06] [INFO   ] TLS PrintServer started. Waiting for a client to connect...
-[2023-11-09 11:21:10] [INFO   ] Client connected.
-[2023-11-09 11:21:10] [INFO   ] Server ready
-[2023-11-09 11:21:27] [WARNING] User: Cecilia cannot execute this operation.
-[2023-11-09 11:21:36] [INFO   ] Restart operation invoked by user: Cecilia
