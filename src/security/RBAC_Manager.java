@@ -60,14 +60,6 @@ public class RBAC_Manager extends Manager{
 
     @Override
     public boolean verifyPermission(String username, EOperation eOperation) {
-        if (!userRoles.containsKey(username)) {
-            logger.log(java.util.logging.Level.INFO, "User " + username + " not found in users_roles file");
-            return false;
-        }
-        if (!roleOperations.containsKey(userRoles.get(username))) {
-            logger.log(java.util.logging.Level.INFO, "Role " + userRoles.get(username) + " not found in roles_operations file");
-            return false;
-        }
         return roleOperations.get(userRoles.get(username)).contains(eOperation);
     }
 }
