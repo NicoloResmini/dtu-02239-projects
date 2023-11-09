@@ -14,28 +14,7 @@ public class AccessManager extends Manager{
 
     public AccessManager(String accessListFile) {
         this.accessListFile = Paths.get(accessListFile);
-        loadAccessRightsFile();
-    }
-
-    private void loadAccessRightsFile() {
-        try {
-            List<String> lines = Files.readAllLines(accessListFile);
-            for (String line : lines) {
-                String[] parts = line.split(":", 2);
-                if (parts.length == 2) {
-                    userAccessRights.put(parts[0], parseOperations(parts[1]));
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error loading access rights: " + e);
-        }
-    }
-
-    private List<EOperation> parseOperations(String operations) {
-        String[] parts = operations.split(",");
-        List<EOperation> list = new ArrayList<>();
-        Arrays.stream(parts).forEach(p -> list.add(EOperation.valueOf(p.strip())));
-        return list;
+        this.userAccessRights = load_string_list_File(this.accessListFile);
     }
 
     @Override

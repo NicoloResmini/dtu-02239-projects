@@ -1,7 +1,5 @@
-[2023-11-08 22:10:58] [INFO   ] TLS PrintServer started. Waiting for a client to connect...
-[2023-11-08 22:11:03] [INFO   ] Client connected.
-[2023-11-08 22:11:03] [INFO   ] Server ready
-[2023-11-08 22:11:10] [INFO   ] Start operation invoked by user: Alice
-[2023-11-08 22:11:51] [WARNING] User: Bob cannot execute this operation.
-[2023-11-08 22:12:16] [INFO   ] Restart operation invoked by user: Cecilia
-[2023-11-08 22:12:33] [WARNING] User: George cannot execute this operation.
+[2023-11-09 11:21:06] [INFO   ] TLS PrintServer started. Waiting for a client to connect...
+[2023-11-09 11:21:10] [INFO   ] Client connected.
+[2023-11-09 11:21:10] [INFO   ] Server ready
+[2023-11-09 11:21:27] [WARNING] User: Cecilia cannot execute this operation.
+[2023-11-09 11:21:36] [INFO   ] Restart operation invoked by user: Cecilia
