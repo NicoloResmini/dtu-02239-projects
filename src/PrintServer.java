@@ -1,8 +1,8 @@
 package src;
 
-import src.security.AccessManager;
+import src.security.ACLManager;
 import src.security.Manager;
-import src.security.RBAC_Manager;
+import src.security.RBACManager;
 import src.security.exception.AccessException;
 import src.security.exception.HashingException;
 import src.security.PasswordManager;
@@ -29,14 +29,14 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
     protected PrintServer(String passwordFilePath, String accessFile) throws RemoteException {
         super();
         passwordManager = new PasswordManager(passwordFilePath);
-        accessManager = new AccessManager(accessFile);
+        accessManager = new ACLManager(accessFile);
     }
 
     // This constructor is used for the RBAC server
-    protected PrintServer(String passwordFilePath, String roles_operationsFile, String users_rolesFile) throws RemoteException {
+    protected PrintServer(String passwordFilePath, String rolesOperationsFile, String usersRolesFile) throws RemoteException {
         super();
         passwordManager = new PasswordManager(passwordFilePath);
-        accessManager = new RBAC_Manager(roles_operationsFile, users_rolesFile);
+        accessManager = new RBACManager(rolesOperationsFile, usersRolesFile);
     }
 
     @Override
@@ -49,7 +49,6 @@ public class PrintServer extends UnicastRemoteObject implements PrintServerInter
         return true;
     }
 
-    
     @Override
     public void print(String filename, String printer, String username, String password) throws RemoteException, HashingException, AccessException {
         if (passwordManager.verifyPassword(username, password)) {
